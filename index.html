@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Website</title>
+</head>
+
+<body>
+    <video id="video" width="640" height="480" autoplay></video>
+    <button id="snap">Snap Photo</button>
+    <canvas id="canvas" width="640" height="480"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        var video = document.getElementById('video');
+        var canvas = document.getElementById('canvas');
+        var snapButton = document.getElementById('snap');
+
+        // Get access to the camera!
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({
+                video: true
+            }).then(function(stream) {
+                video.srcObject = stream;
+                video.play();
+            });
+        }
+
+        // When the user clicks the snap button, take a picture and save it to the canvas.
+        snapButton.addEventListener('click', function() {
+            var context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0);
+        });
+    </script>
+</body>
+
+</html>
